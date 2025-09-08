@@ -65,7 +65,7 @@
 
     .marker {
         position: absolute; width: 10px; height: 10px;
-        border-radius: 50%; background: rgba(80,80,80,1);
+        border-radius: 50%; background: rgba(255,255,255,0.1);
         transform: translate(-50%, -50%);
         transition: all 0.1s;
     }
@@ -547,7 +547,7 @@ function updateMarkers(idx){
         {x: 0.95, y: -0.95}  // Top-right
     ];
 
-    const radiusPct = 45; // distance from center
+    const radiusPct = 38; // distance from center
     const n = 4; // squircle roundness factor; tweak for exact look
 
     dirs.forEach((d,i)=>{
@@ -590,7 +590,7 @@ function animate(){
     handleDpadMovement(pad);
     const {x,y}=getStickXY(pad);
     const cx=canvas.width/2, cy=canvas.height/2;
-    const radius=canvas.width/2 - 18;
+    const radius=canvas.width/2 - 25;
     const jx=cx+x*radius, jy=cy+y*radius;
     joystick.style.left=jx+'px';
     joystick.style.top=jy+'px';
