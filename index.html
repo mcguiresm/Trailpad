@@ -263,7 +263,7 @@ Object.values(btnEls).forEach(btn => {
             else if (e.key === "Escape") btn.textContent = oldText;
         });
         function save() {
-            const newText = input.value.trim() || oldText;
+            const newText = input.value.trim();
             btn.textContent = newText;
             savedLabels[btn.dataset.btn] = newText;
             localStorage.setItem("buttonLabels", JSON.stringify(savedLabels));
