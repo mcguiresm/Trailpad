@@ -22,9 +22,10 @@
         font-family: "Swiss721", Arial, sans-serif;
         text-transform: uppercase;
         user-select: none;
+	outline: 2px;
     }
 
-    #app { position: absolute; top: 80px; left: 30px; }
+    #app { position: absolute; top: 80px; left: 30px;}
 
     #stickWrapper {
         width: 230px; height: 230px;
@@ -100,10 +101,10 @@
     ULT:	#7F47CC	
     */
 
-    .btn[data-btn="Up"]		{ background: #171717; top: 230px; left: 80px; background-image: url("images/up.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; background-size: 100% }
-    .btn[data-btn="Down"]	{ background: #171717; top: 390px; left: 80px; background-image: url("images/down.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; background-size: 100% }
-    .btn[data-btn="Left"]	{ background: #171717; top: 310px; left: 0px; background-image: url("images/left.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; background-size: 100% }
-    .btn[data-btn="Right"]	{ background: #171717; top: 310px; left: 160px; background-image: url("images/right.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; background-size: 100% }
+    .btn[data-btn="Up"]		{ background: #171717; top: 230px; left: 80px; background-image: url("images/up.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; }
+    .btn[data-btn="Down"]	{ background: #171717; top: 390px; left: 80px; background-image: url("images/down.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; }
+    .btn[data-btn="Left"]	{ background: #171717; top: 310px; left: 0px; background-image: url("images/left.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; }
+    .btn[data-btn="Right"]	{ background: #171717; top: 310px; left: 160px; background-image: url("images/right.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; }
 
     .btn[data-btn="A"] { background: #4CB6D9; top: 110px; left: 250px; }
     .btn[data-btn="B"] { background: #CC5C5C; top: 110px; left: 360px; }
@@ -117,8 +118,8 @@
 
     .btn[data-btn="LS"] { background: #D9B64C; top: 210px; left: 310px; width: 80px; height: 80px; }
     .btn[data-btn="RS"] { background: #805973; top: 210px; left: 530px; width: 80px; height: 80px; }
-    .btn[data-btn="View"] { background: #646464; top: -60px; left: 310px; width: 80px; height: 40px; border-radius: 30px; font-size: 20px }
-    .btn[data-btn="Menu"] { background: #646464; top: -60px; left: 530px; width: 80px; height: 40px; border-radius: 30px; font-size: 20px }
+    .btn[data-btn="View"] { background: #646464; top: -60px; left: 310px; width: 80px; height: 40px; border-radius: 30px; font-size: 20px; }
+    .btn[data-btn="Menu"] { background: #646464; top: -60px; left: 530px; width: 80px; height: 40px; border-radius: 30px; font-size: 20px; }
 
     .btn.active { filter: brightness(1.5); transform: scale(1.05); }
     .btn.selected { box-shadow: 0px 0px 0px 8px rgba(255,255,255,1) }
@@ -236,6 +237,7 @@ if (savedStickPos.left) stickWrapper.style.left = savedStickPos.left;
 
 // Editable labels
 Object.values(btnEls).forEach(btn => {
+    if (['Up','Down','Left','Right'].includes(btn.dataset.btn)) return;
     btn.addEventListener("click", () => {
         if (btn.querySelector("input")) return;
         const oldText = btn.textContent.trim();
