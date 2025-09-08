@@ -238,7 +238,7 @@ if (savedStickPos.left) stickWrapper.style.left = savedStickPos.left;
 // Editable labels
 Object.values(btnEls).forEach(btn => {
     if (['Up','Down','Left','Right'].includes(btn.dataset.btn)) return;
-    btn.addEventListener("click", () => {
+    btn.addEventListener("dblclick", () => {
         if (btn.querySelector("input")) return;
         const oldText = btn.textContent.trim();
         btn.textContent = "";
