@@ -30,9 +30,9 @@
         width: 230px; height: 230px;
         position: absolute; top: -10px; left: 10px;
         background: transparent;
-        background-image: url("stickWrapper.svg");
+        background-image: url("images/gate_strive.svg");
         background-size: cover;
-        border-radius: 100%;
+        border-radius: 0%;
     }
 
     #stickCanvas {
@@ -523,16 +523,39 @@ function updateButtons(pad){
 // Stick helpers
 function radialDeadzone(x,y,dz){ const mag=Math.hypot(x,y); if(mag<dz) return {x:0,y:0}; const s=(mag-dz)/(1-dz); return {x:x*s/mag,y:y*s/mag}; }
 function clampCircle(x,y){ const mag=Math.hypot(x,y); if(mag>1) return {x:x/mag,y:y/mag}; return {x,y}; }
-function getStickXY(pad){ if(!pad) return {x:0,y:0}; let {x,y}=radialDeadzone(pad.axes[0]||0,pad.axes[1]||0,cfg.deadzone); const up=pad.buttons[12]?.pressed?1:0; const down=pad.buttons[13]?.pressed?1:0; const left=pad.buttons[14]?.pressed?1:0; const right=pad.buttons[15]?.pressed?1:0; if(up||down||left||right){ y=(up?-1:0)+(down?1:0); x=(left?-1:0)+(right?1:0); if(x&&y){x*=0.707;y*=0.707;} } return clampCircle(x,cfg.invertY?-y:y); }
+function getStickXY(pad){ if(!pad) return {x:0,y:0}; let {x,y}=radialDeadzone(pad.axes[0]||0,pad.axes[1]||0,cfg.deadzone); const up=pad.buttons[12]?.pressed?1:0; const down=pad.buttons[13]?.pressed?1:0; const left=pad.buttons[14]?.pressed?1:0; const right=pad.buttons[15]?.pressed?1:0; if(up||down||left||right){ y=(up?-1:0)+(down?1:0); x=(left?-1:0)+(right?1:0); if(x&&y){x*=0.85;y*=0.85;} } return clampRoundedSquare(x,cfg.invertY?-y:y); }
+
+function clampRoundedSquare(x, y, n = 8) {
+    // n = roundness factor: 4=circle, higher=more square
+    const mag = Math.pow(Math.abs(x), n) + Math.pow(Math.abs(y), n);
+    if (mag > 1) {
+        const scale = Math.pow(mag, -1/n);
+        return { x: x * scale, y: y * scale };
+    }
+    return { x, y };
+}
 
 function updateMarkers(idx){
-    const dirs=[{x:1,y:0},{x:0.707,y:0.707},{x:0,y:1},{x:-0.707,y:0.707},{x:-1,y:0},{x:-0.707,y:-0.707},{x:0,y:-1},{x:0.707,y:-0.707}];
-    const radiusPct = 45;
+    const dirs = [
+        {x: 1, y: 0},      // Right
+        {x: 0.95, y: 0.95},  // Bottom-right
+        {x: 0, y: 1},      // Bottom
+        {x: -0.95, y: 0.95}, // Bottom-left
+        {x: -1, y: 0},     // Left
+        {x: -0.95, y: -0.95},// Top-left
+        {x: 0, y: -1},     // Top
+        {x: 0.95, y: -0.95}  // Top-right
+    ];
+
+    const radiusPct = 45; // distance from center
+    const n = 4; // squircle roundness factor; tweak for exact look
+
     dirs.forEach((d,i)=>{
-        const m=document.getElementById('marker'+i);
-        m.style.left=(50+d.x*radiusPct)+'%';
-        m.style.top=(50+d.y*radiusPct)+'%';
-        m.classList.toggle('active',i===idx);
+        const m = document.getElementById('marker'+i);
+        const clamped = clampRoundedSquare(d.x, d.y, n);
+        m.style.left = (50 + clamped.x * radiusPct) + '%';
+        m.style.top  = (50 + clamped.y * radiusPct) + '%';
+        m.classList.toggle('active', i === idx);
     });
 }
 
@@ -567,7 +590,7 @@ function animate(){
     handleDpadMovement(pad);
     const {x,y}=getStickXY(pad);
     const cx=canvas.width/2, cy=canvas.height/2;
-    const radius=canvas.width/2-25;
+    const radius=canvas.width/2 - 18;
     const jx=cx+x*radius, jy=cy+y*radius;
     joystick.style.left=jx+'px';
     joystick.style.top=jy+'px';
