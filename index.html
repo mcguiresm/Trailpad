@@ -215,6 +215,11 @@ hiddenButtons.forEach(btnName => {
     }
 });
 
+const joystickHidden = localStorage.getItem("joystickHidden") === "true";
+if (joystickHidden) {
+    stickWrapper.style.display = "none";
+}
+
 for (const key in savedSizes) {
     const el = movableElements[key];
     if (el) {
@@ -297,12 +302,16 @@ document.addEventListener("keydown", e => {
         Object.values(btnEls).forEach(btn => btn.style.display = "flex");
         hiddenButtons.length = 0;
         localStorage.setItem("hiddenButtons", JSON.stringify(hiddenButtons));
+
+        // Restore joystick too
+        stickWrapper.style.display = "block";
+        localStorage.removeItem("joystickHidden");
+
         // Always keep View and Menu ignored
         cfg.ignoredForJoystick = ['View', 'Menu', ...cfg.ignoredForJoystick.filter(b => b !== 'View' && b !== 'Menu')];
         e.preventDefault();
         return;
     }
-    if (!selectedElement) return;
     
     const style = window.getComputedStyle(selectedElement);
     let top = parseInt(style.top)||0, left = parseInt(style.left)||0;
@@ -348,16 +357,25 @@ document.addEventListener("keydown", e => {
         if (e.key === "[") { borderRadius = Math.max(0,borderRadius-10); updated=true; }
         if (e.key === "]") { borderRadius += 10; updated=true; }
     
-        // Hide
-        if (e.key === "Delete" && selectedElement?.classList.contains("btn")) {
-            selectedElement.style.display = "none";
-            const btnName = selectedElement.dataset.btn;
-            if (!hiddenButtons.includes(btnName)) hiddenButtons.push(btnName);
-            localStorage.setItem("hiddenButtons", JSON.stringify(hiddenButtons));
-            if (!cfg.ignoredForJoystick.includes(btnName)) cfg.ignoredForJoystick.push(btnName);
-            e.preventDefault();
-            return;
-        }
+	// Hide
+	if (e.key === "Delete") {
+	    if (selectedElement?.classList.contains("btn")) {
+	        // Existing button hide logic
+	        selectedElement.style.display = "none";
+	        const btnName = selectedElement.dataset.btn;
+	        if (!hiddenButtons.includes(btnName)) hiddenButtons.push(btnName);
+	        localStorage.setItem("hiddenButtons", JSON.stringify(hiddenButtons));
+	        if (!cfg.ignoredForJoystick.includes(btnName)) cfg.ignoredForJoystick.push(btnName);
+	        e.preventDefault();
+	        return;
+	    } else if (selectedElement?.id === "stickWrapper") {
+	        // Hide the entire joystick and its parts
+	        selectedElement.style.display = "none";
+	        localStorage.setItem("joystickHidden", "true");
+	        e.preventDefault();
+	        return;
+	    }
+	}
     }
 
     if (updated) {
