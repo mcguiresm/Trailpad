@@ -27,8 +27,8 @@
     #app { position: absolute; top: 80px; left: 30px; }
 
     #stickWrapper {
-        width: 240px; height: 240px;
-        position: absolute; top: -20px; left: 0px;
+        width: 230px; height: 230px;
+        position: absolute; top: -10px; left: 10px;
         background: transparent;
         background-image: url("stickWrapper.svg");
         background-size: cover;
@@ -100,6 +100,11 @@
     ULT:	#7F47CC	
     */
 
+    .btn[data-btn="Up"]		{ background: #171717; top: 230px; left: 80px; background-image: url("images/up.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; background-size: 100% }
+    .btn[data-btn="Down"]	{ background: #171717; top: 390px; left: 80px; background-image: url("images/down.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; background-size: 100% }
+    .btn[data-btn="Left"]	{ background: #171717; top: 310px; left: 0px; background-image: url("images/left.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; background-size: 100% }
+    .btn[data-btn="Right"]	{ background: #171717; top: 310px; left: 160px; background-image: url("images/right.svg"); background-size: contain; background-repeat: no-repeat; background-position: center; background-size: 100% }
+
     .btn[data-btn="A"] { background: #4CB6D9; top: 110px; left: 250px; }
     .btn[data-btn="B"] { background: #CC5C5C; top: 110px; left: 360px; }
     .btn[data-btn="X"] { background: #B8ADD9; top: 0px; left: 250px; }
@@ -141,6 +146,10 @@
         <div class="joystickHead" id="joystickHead"></div>
     </div>
 
+    <div class="btn" data-btn="Up"></div>
+    <div class="btn" data-btn="Down"></div>
+    <div class="btn" data-btn="Left"></div>
+    <div class="btn" data-btn="Right"></div>
     <div class="btn" data-btn="A">A</div>
     <div class="btn" data-btn="B">B</div>
     <div class="btn" data-btn="X">X</div>
@@ -172,9 +181,13 @@ const cfg = {
         View:8,
         Menu:9,
         LS:10,
-        RS:11
+        RS:11,
+        Up:12,
+        Down:13,
+        Left:14,
+        Right:15
     },
-    ignoredForJoystick: ['View','Menu','LS','RS']
+    ignoredForJoystick: ['View','Menu','LS','RS','Up','Down','Left','Right']
 };
 
 const btnEls = {};
