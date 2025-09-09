@@ -25,13 +25,9 @@
 	outline: 2px;
     }
 
-	 #app {
-        position: absolute; top: 0px; left: 0px; }
-    }
-  
-    .base {
-        position: absolute; top: 0px; left: 0px; }
-    }
+    #app { position: absolute; top: 80px; left: 30px;}
+
+	.base {position: absolute; };
 
     #stickWrapper {
         width: 230px; height: 230px;
@@ -63,6 +59,10 @@
         transition: left 0.01s, top 0.01s, transform 0.1s;
         background: rgba(128,128,128,1); color: #000; z-index: 3;
     }
+
+	.stickPot {
+		position: absolute;
+	}
 
     #directionMarkers {
         position: absolute; top: 0; left: 0;
@@ -137,8 +137,9 @@
 </style>
 </head>
 <body>
-<div id="app">  
-	<div class="base"></div>
+<div id="app">
+    <div class="base"></div>
+	
     <div id="stickWrapper" class="stickHighlight">
         <div id="directionMarkers">
             <div class="marker" id="marker0"></div>
@@ -154,9 +155,9 @@
         <div class="joystickHead" id="joystickHead"></div>
     </div>
 
-    <div class="joystickPot"><div class="joystickHead" id="stickLeft"></div></div>		
-    <div class="joystickPot"><div class="joystickHead" id="stickRight"></div></div>
-  
+    <div class="stickPot"><div class="joystickHead" id="stickLeft"></div></div>
+	<div class="stickPot"><div class="joystickHead" id="stickRight"></div></div>
+	
     <div class="btn" data-btn="Up"></div>
     <div class="btn" data-btn="Down"></div>
     <div class="btn" data-btn="Left"></div>
@@ -172,7 +173,7 @@
     <div class="btn" data-btn="LS">LS</div>
     <div class="btn" data-btn="RS">RS</div>
     <div class="btn" data-btn="View">View</div>
-    <div class="btn" data-btn="Menu">Menu</div>
+    <div class="btn" data-btn="Menu">Menu</div>	
 </div>
 
 <script>
