@@ -621,25 +621,26 @@ const colors = [
 	"#E5EFFF","#B3CCFF","#8099FF","#4D66FF","#0033FF","#0029CC","#001F99","#001466",
 	"#F0E5FF","#D1B3FF","#B380FF","#944DFF","#6600FF","#5200CC","#3D0099","#290066",
 	"#FFE5F7","#FFB3E6","#FF80D6","#FF4DC5","#FF00AA","#CC0088","#990066","#660044",
-	"#FFFFFF","#E6E6E6","#CCCCCC","#999999","#666666","#333333","#1A1A1A","#000000"
+	"#FFFFFF","#E6E6E6","#CCCCCC","#999999","#666666","#333333","#1A1A1A","#000000",
+	"#ffffff00"
 ];
 
 // --- CREATE PALETTE ---
 const colorPanel = document.createElement("div");
 colorPanel.id = "colorPanel";
 colorPanel.style.position = "fixed";
-colorPanel.style.bottom = "10px";
-colorPanel.style.left = "50%";
-colorPanel.style.transform = "translateX(-50%)";
+colorPanel.style.bottom = "0px";
+colorPanel.style.left = "0px";
+colorPanel.style.width = "100%";
 colorPanel.style.display = "none"; // hidden by default
 colorPanel.style.background = "#222";
 colorPanel.style.padding = "8px 8px";
-colorPanel.style.borderRadius = "10px";
-colorPanel.style.boxShadow = "0 2px 8px rgba(0,0,0,0.6)";
+colorPanel.style.borderRadius = "0px";
+colorPanel.style.boxShadow = "0 2px 8px rgba(0,0,0,1)";
 colorPanel.style.zIndex = "1000";
 colorPanel.style.display = "none";
 colorPanel.style.flexWrap = "wrap";
-colorPanel.style.gap = "8px";
+colorPanel.style.gap = "4px";
 document.body.appendChild(colorPanel);
 
 // --- MODE TOGGLE ---
@@ -687,20 +688,31 @@ txtBtn.addEventListener("click", () => {
 // Fill the panel with swatches
 colors.forEach(c => {
   const swatch = document.createElement("div");
-  swatch.style.width = "40px";
-  swatch.style.height = "40px";
+  swatch.style.width = "30px";
+  swatch.style.height = "30px";
   swatch.style.borderRadius = "50%";
   swatch.style.backgroundColor = c;
   swatch.style.cursor = "pointer";
+
   swatch.addEventListener("click", () => {
     if (colorPanel.targetBtn) {
+      const btnName = colorPanel.targetBtn.dataset.btn;
+      const savedColors = JSON.parse(localStorage.getItem("buttonColors") || "{}");
+
       if (colorMode === "background") {
         colorPanel.targetBtn.style.backgroundColor = c;
+        savedColors[btnName] = savedColors[btnName] || {};
+        savedColors[btnName].background = c;
       } else {
         colorPanel.targetBtn.style.color = c;
+        savedColors[btnName] = savedColors[btnName] || {};
+        savedColors[btnName].text = c;
       }
+
+      localStorage.setItem("buttonColors", JSON.stringify(savedColors));
     }
   });
+
   colorPanel.appendChild(swatch);
 });
 
