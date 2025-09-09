@@ -24,6 +24,10 @@
         user-select: none;
 	outline: 2px;
     }
+
+	 #app {
+        position: absolute; top: 0px; left: 0px; }
+    }
   
     .base {
         position: absolute; top: 0px; left: 0px; }
@@ -133,7 +137,8 @@
 </style>
 </head>
 <body>
-<div class="base" id="app">  
+<div id="app">  
+	<div class="base"></div>
     <div id="stickWrapper" class="stickHighlight">
         <div id="directionMarkers">
             <div class="marker" id="marker0"></div>
@@ -149,8 +154,8 @@
         <div class="joystickHead" id="joystickHead"></div>
     </div>
 
-    <div class="joystickHead" id="stickLeft"></div>
-    <div class="joystickHead" id="stickRight"></div>
+    <div class="joystickPot"><div class="joystickHead" id="stickLeft"></div></div>		
+    <div class="joystickPot"><div class="joystickHead" id="stickRight"></div></div>
   
     <div class="btn" data-btn="Up"></div>
     <div class="btn" data-btn="Down"></div>
